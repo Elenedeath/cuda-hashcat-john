@@ -41,7 +41,6 @@ RUN cd /opt && git clone https://github.com/openwall/john.git john-jumbo && \
 RUN sed -i 's/#UsePAM yes/UsePAM no/' /etc/ssh/sshd_config && \
     sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
-USER cracker
-WORKDIR /home/cracker
+USER root
 EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+CMD ["/bin/bash", "-c", "echo '=== HOSTKEYS ===' && ls -la /etc/ssh/ssh_host_*_key* && echo '=== SSHD TEST ===' && /usr/sbin/sshd -t && echo '=== START SSHD ===' && exec /usr/sbin/sshd -D"]

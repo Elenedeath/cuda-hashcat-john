@@ -12,13 +12,13 @@ RUN mkdir -p /var/run/sshd /etc/ssh \
     && rm -f /etc/ssh/ssh_host_*_key* \
     && ssh-keygen -A \
     && sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config \
-    && sed -i 's/#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config \
-    && rm -rf /var/lib/apt/lists/*
+    && sed -i 's/#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
-# User + mdp bulletproof
+# User + MDP BULLETPROOF
 RUN useradd -m -u 1001 -s /bin/bash cracker && \
-    usermod -p '$(openssl passwd -1 password123)' cracker && \
-    echo "cracker ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+    echo "cracker ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    echo "cracker:password123" | chpasswd && \
+    echo "root:password123" | chpasswd
 
 # SSH PERMS BULLETPROOF
 RUN chown root:root /var/run/sshd /run/sshd && \
@@ -27,25 +27,24 @@ RUN chown root:root /var/run/sshd /run/sshd && \
     chmod 600 /etc/ssh/ssh_host_*_key && \
     chmod 644 /etc/ssh/ssh_host_*_key.pub
 
-# Install Hashcat (latest stable)
+# Hashcat
 RUN cd /opt && wget https://hashcat.net/files/hashcat-6.2.6.7z && \
-    7z x hashcat-6.2.6.7z && chmod +x hashcat-6.2.6/hashcat.bin && \
+    7z x hashcat-6.2.6.7z && rm hashcat-6.2.6.7z && \
+    chmod +x hashcat-6.2.6/hashcat.bin && \
     ln -sf /opt/hashcat-6.2.6/hashcat.bin /usr/local/bin/hashcat
 
-# Install John the Ripper Jumbo (CUDA)
+# John Jumbo CUDA
 RUN cd /opt && git clone https://github.com/openwall/john.git john-jumbo && \
     cd john-jumbo/src && ./configure CUDA=found && \
     make -s clean && make -j$(nproc) && \
     ln -sf /opt/john-jumbo/run/john /usr/local/bin/john
 
-# Config SSHD bulletproof
-RUN sed -i 's/#UsePAM yes/UsePAM no/' /etc/ssh/sshd_config && \
-    sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
-
-# Fin Dockerfile (avant CMD)
-RUN chown -R cracker:cracker /opt/ && \
+# Fix PERMS + Alias
+RUN chown -R cracker:cracker /opt/ /home/cracker && \
     echo 'alias john="/opt/john-jumbo/run/john"' >> /home/cracker/.bashrc && \
-    chown cracker:cracker /home/cracker/.bashrc
+    mkdir -p /home/cracker/.john && \
+    echo "[Options]\nHomeDir = /opt/john-jumbo/run" > /home/cracker/.john/john.conf
 
 USER root
+EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]

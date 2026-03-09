@@ -6,8 +6,9 @@ services:
     runtime: nvidia
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all,compute,utility
     ports:
       - "2222:22"
     volumes:
-      - /mnt/hashes:/home/cracker/data
+      - /mnt/pool/folder/hashes:/home/cracker/data  # Your ZFS pool
     restart: unless-stopped

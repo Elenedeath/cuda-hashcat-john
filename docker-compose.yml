@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  cuda-hashcat:
+    image: necromushikage/cuda-hashcat-john:latest
+    container_name: cuda-hashcat
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    ports:
+      - "2222:22"
+    volumes:
+      - /mnt/hashes:/home/cracker/data
+    restart: unless-stopped

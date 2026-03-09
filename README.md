@@ -8,6 +8,7 @@
 - ✅ NVIDIA CUDA 13.1.1-devel Ubuntu 24.04
 - ✅ Volume persistant `/home/cracker/data` (hashes/wordlists)
 - ✅ OpenCL fallback (ignore warning)
+- ✅ Generate SSH keys when building image
 
 **29 GH/s MD5** (RTX 2070S) | Hashcat 6.2.6 + John Jumbo + SSH | TrueNAS SCALE Ready
 

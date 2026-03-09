@@ -7,11 +7,12 @@ RUN apt-get update && apt-get install -y \
     libbz2-dev libpcap-dev ocl-icd-opencl-dev clinfo \
     && rm -rf /var/lib/apt/lists/*
 
-# SSH DIRS + HOSTKEYS AVANT user
+# SSH DIRS + HOSTKEYS
 RUN mkdir -p /var/run/sshd /etc/ssh && \
-    rm -rf /etc/ssh/ssh_host_*_key* && \
-    ssh-keygen -q -t rsa -N "" -f /etc/ssh/ssh_host_rsa_key && \
-    ssh-keygen
+    rm -f /etc/ssh/ssh_host_*_key* && \
+    yes | ssh-keygen -t rsa -N "" -f /etc/ssh/ssh_host_rsa_key && \
+    yes | ssh-keygen -t ed25519 -N "" -f /etc/ssh/ssh_host_ed25519_key && \
+    yes | ssh-keygen -t ecdsa -N "" -f /etc/ssh/ssh_host_ecdsa_key
 
 # User + mdp bulletproof
 RUN useradd -m -u 1001 -s /bin/bash cracker && \

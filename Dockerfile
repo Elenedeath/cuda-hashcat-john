@@ -20,11 +20,14 @@ RUN useradd -m -u 1001 -s /bin/bash cracker && \
     usermod -p '$(openssl passwd -1 password123)' cracker && \
     echo "cracker ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# FIX PERMS HOSTKEYS → cracker peut lire
+# FIX PERMS HOSTKEYS
 RUN chown -R 1001:1001 /etc/ssh /var/run/sshd && \
-    chmod 755 /var/run/sshd && \
     chmod 600 /etc/ssh/ssh_host_*_key && \
     chmod 644 /etc/ssh/ssh_host_*_key.pub
+
+RUN chown root:root /var/run/sshd && \
+    chmod 755 /var/run/sshd && \
+    chmod 1777 /var/run/sshd  # sticky bit obligatoire
 
 # Install Hashcat (latest stable)
 RUN cd /opt && wget https://hashcat.net/files/hashcat-6.2.6.7z && \
@@ -43,4 +46,4 @@ RUN sed -i 's/#UsePAM yes/UsePAM no/' /etc/ssh/sshd_config && \
 
 USER root
 EXPOSE 22
-CMD ["/bin/bash", "-c", "echo '=== HOSTKEYS ===' && ls -la /etc/ssh/ssh_host_*_key* && echo '=== SSHD TEST ===' && /usr/sbin/sshd -t && echo '=== START SSHD ===' && exec /usr/sbin/sshd -D"]
+CMD ["/bin/bash", "-D"]

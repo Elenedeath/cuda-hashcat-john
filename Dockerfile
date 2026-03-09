@@ -4,11 +4,14 @@ FROM nvidia/cuda:13.1.1-devel-ubuntu24.04
 RUN apt-get update && apt-get install -y \
     openssh-server sudo wget p7zip-full git build-essential \
     libssl-dev zlib1g-dev yasm pkg-config libgmp-dev \
-    libbz2-dev libpcap-dev ocl-icd-opencl-dev clinfo \
+    libbz2-dev libpcap-dev ocl-icd-opencl-dev clinfo openssl \
     && rm -rf /var/lib/apt/lists/*
 
 # GENÈRE HOSTKEYS SSH (fix crash!)
-RUN ssh-keygen -A && mkdir -p /var/run/sshd
+RUN ssh-keygen -A -f /etc/ssh/ssh_host_rsa_key -N "" && \
+    ssh-keygen -A -f /etc/ssh/ssh_host_ecdsa_key -N "" && \
+    ssh-keygen -A -f /etc/ssh/ssh_host_ed25519_key -N "" && \
+    mkdir -p /var/run/sshd
 
 # User + mdp bulletproof
 RUN useradd -m -u 1001 -s /bin/bash cracker && \

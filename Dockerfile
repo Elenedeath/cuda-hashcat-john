@@ -42,5 +42,10 @@ RUN cd /opt && git clone https://github.com/openwall/john.git john-jumbo && \
 RUN sed -i 's/#UsePAM yes/UsePAM no/' /etc/ssh/sshd_config && \
     sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
+# Fin Dockerfile (avant CMD)
+RUN chown -R cracker:cracker /opt/ && \
+    echo 'alias john="/opt/john-jumbo/run/john"' >> /home/cracker/.bashrc && \
+    chown cracker:cracker /home/cracker/.bashrc
+
 USER root
 CMD ["/usr/sbin/sshd", "-D"]

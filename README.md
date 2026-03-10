@@ -22,7 +22,6 @@
 
 ## 🐳 TrueNAS SCALE YAML
 ```
-version: "3.9"
 services:
   cuda-hashcat:
     image: hikage/cuda-hashcat-john:latest
@@ -36,6 +35,30 @@ services:
     volumes:
       - /mnt/pool/folder/hashes:/home/cracker/data  # Your ZFS pool
     restart: unless-stopped
+x-notes: >
+  # cuda-hashcat-john
+
+  **Source** :
+  [https://github.com/Elenedeath/cuda-hashcat-john](https://github.com/Elenedeath/cuda-hashcat-john)
+
+
+  **Image Docker** : hikage/cuda-hashcat-john:latest
+
+  ## Security
+
+
+  **Read the following security precautions to ensure that you wish to continue
+  using this application.**
+
+  ---
+
+  ## Bug Reports and Feature Requests
+
+
+  If you find a bug in this app or have an idea for a new feature, please file
+  an issue at
+
+  https://github.com/Elenedeath/cuda-hashcat-john
 ```
 ## 🚀 **Quickstart Docker**
 ```

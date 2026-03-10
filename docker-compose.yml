@@ -9,7 +9,7 @@ services:
     ports:
       - "2222:22"
     volumes:
-      - /mnt/pool/folder/hashes:/home/cracker/data  # Your ZFS pool
+      - /mnt/.ix-apps/app_mounts/cuda-hashcat-john/hashes:/home/cracker/data  # Your ZFS pool
     restart: unless-stopped
 x-notes: >
   # cuda-hashcat-john

@@ -3,7 +3,7 @@ FROM nvidia/cuda:13.1.1-devel-ubuntu24.04
 # Base + deps
 RUN apt-get update && apt-get install -y \
     openssh-server sudo wget p7zip-full git build-essential openssl \
-    libssl-dev zlib1g-dev yasm pkg-config libgmp-dev \
+    libssl-dev zlib1g-dev yasm pkg-config libgmp-dev nano \
     libbz2-dev libpcap-dev ocl-icd-opencl-dev clinfo \
     && rm -rf /var/lib/apt/lists/*
 
@@ -28,10 +28,10 @@ RUN chown root:root /var/run/sshd /run/sshd && \
     chmod 644 /etc/ssh/ssh_host_*_key.pub
 
 # Hashcat
-RUN cd /opt && wget https://hashcat.net/files/hashcat-6.2.6.7z && \
-    7z x hashcat-6.2.6.7z && rm hashcat-6.2.6.7z && \
-    chmod +x hashcat-6.2.6/hashcat.bin && \
-    ln -sf /opt/hashcat-6.2.6/hashcat.bin /usr/local/bin/hashcat
+RUN cd /opt && wget https://hashcat.net/files/hashcat-7.1.2.7z && \
+    7z x hashcat-7.1.2.7z && rm hashcat-7.1.2.7z && \
+    chmod +x hashcat-7.1.2/hashcat.bin && \
+    ln -sf /opt/hashcat-7.1.2/hashcat.bin /usr/local/bin/hashcat
 
 # John Jumbo CUDA
 RUN cd /opt && git clone https://github.com/openwall/john.git john-jumbo && \

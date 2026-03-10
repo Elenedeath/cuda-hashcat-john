@@ -62,7 +62,7 @@ x-notes: >
 ```
 ## 🚀 **Quickstart Docker**
 ```
-docker run -d --gpus all -p 2222:22 -v ./data:/home/cracker/data necromushikage/cuda-hashcat-john
+docker run -d --gpus all -p 2222:22 -v ./data:/home/cracker/data hikage/cuda-hashcat-john
 ssh cracker@localhost -p 2222  # password123
 hashcat -b -w 3  # Benchmark
 ```

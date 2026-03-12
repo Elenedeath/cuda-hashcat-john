@@ -45,6 +45,6 @@ RUN chown -R apps:apps /opt/ /home/apps && \
     mkdir -p /home/apps/.john && \
     echo "[Options]\nHomeDir = /opt/john-jumbo/run" > /home/apps/.john/john.conf
 
-USER apps
+USER root
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]

@@ -15,10 +15,9 @@ RUN mkdir -p /var/run/sshd /etc/ssh \
     && sed -i 's/#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
 # User + MDP BULLETPROOF
-RUN groupadd -g 568 apps && \
-    useradd -m -u 568 -s /bin/bash -g apps apps && \
-    echo "apps ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
-    echo "apps:password123" | chpasswd && \
+RUN useradd -m -u 1000 -s /bin/bash cracker && \
+    echo "cracker ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    echo "cracker:password123" | chpasswd && \
     echo "root:password123" | chpasswd
 
 # SSH PERMS BULLETPROOF
@@ -41,11 +40,11 @@ RUN cd /opt && git clone https://github.com/openwall/john.git john-jumbo && \
     ln -sf /opt/john-jumbo/run/john /usr/local/bin/john
 
 # Fix PERMS + Alias
-RUN chown -R apps:apps /opt/ /home/apps && \
-    echo 'alias john="/opt/john-jumbo/run/john"' >> /home/apps/.bashrc && \
-    mkdir -p /home/apps/.john && \
-    echo "[Options]\nHomeDir = /opt/john-jumbo/run" > /home/apps/.john/john.conf
+RUN chown -R cracker:cracker /opt/ /home/cracker && \
+    echo 'alias john="/opt/john-jumbo/run/john"' >> /home/cracker/.bashrc && \
+    mkdir -p /home/cracker/.john && \
+    echo "[Options]\nHomeDir = /opt/john-jumbo/run" > /home/cracker/.john/john.conf
 
-USER apps
+USER cracker
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]

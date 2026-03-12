@@ -15,7 +15,8 @@ RUN mkdir -p /var/run/sshd /etc/ssh \
     && sed -i 's/#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
 # User + MDP BULLETPROOF
-RUN useradd -m -u 568 -s /bin/bash -g apps apps && \
+RUN groupadd -g 568 apps && \
+    useradd -m -u 568 -s /bin/bash -g apps apps && \
     echo "apps ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
     echo "apps:password123" | chpasswd && \
     echo "root:password123" | chpasswd

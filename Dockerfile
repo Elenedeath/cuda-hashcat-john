@@ -40,11 +40,11 @@ RUN cd /opt && git clone https://github.com/openwall/john.git john-jumbo && \
     ln -sf /opt/john-jumbo/run/john /usr/local/bin/john
 
 # Fix PERMS + Alias
-RUN chown -R cracker:cracker /opt/ /home/cracker && \
-    echo 'alias john="/opt/john-jumbo/run/john"' >> /home/cracker/.bashrc && \
-    mkdir -p /home/cracker/.john && \
-    echo "[Options]\nHomeDir = /opt/john-jumbo/run" > /home/cracker/.john/john.conf
+RUN chown -R apps:apps /opt/ /home/apps && \
+    echo 'alias john="/opt/john-jumbo/run/john"' >> /home/apps/.bashrc && \
+    mkdir -p /home/apps/.john && \
+    echo "[Options]\nHomeDir = /opt/john-jumbo/run" > /home/apps/.john/john.conf
 
-USER root
+USER apps
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]

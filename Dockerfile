@@ -15,7 +15,7 @@ RUN mkdir -p /var/run/sshd /etc/ssh \
     && sed -i 's/#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
 # User + MDP BULLETPROOF
-RUN useradd -m -u 1000 -s /bin/bash cracker && \
+RUN useradd -m -u 1001 -s /bin/bash cracker && \
     echo "cracker ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
     echo "cracker:password123" | chpasswd && \
     echo "root:password123" | chpasswd

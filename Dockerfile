@@ -45,6 +45,6 @@ RUN chown -R cracker:cracker /opt/ /home/cracker && \
     mkdir -p /home/cracker/.john && \
     echo "[Options]\nHomeDir = /opt/john-jumbo/run" > /home/cracker/.john/john.conf
 
-USER cracker
+USER root
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]

@@ -5,7 +5,8 @@ RUN apt-get update && apt-get install -y \
     openssh-server sudo wget p7zip-full git build-essential openssl \
     libssl-dev zlib1g-dev yasm pkg-config libgmp-dev nano \
     libbz2-dev libpcap-dev ocl-icd-opencl-dev clinfo \
-    && rm -rf /var/lib/apt/lists/*
+    libpam-modules libnss-files && \\
+    rm -rf /var/lib/apt/lists/*
 
 # SSH DIRS + HOSTKEYS
 RUN mkdir -p /var/run/sshd /etc/ssh \

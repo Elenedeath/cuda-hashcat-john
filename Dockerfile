@@ -14,6 +14,9 @@ RUN mkdir -p /var/run/sshd /etc/ssh \
     && sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config \
     && sed -i 's/#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
+RUN echo "KexAlgorithms +diffie-hellman-group1-sha1" >> /etc/ssh/sshd_config && \
+    echo "Ciphers +aes128-cbc" >> /etc/ssh/sshd_config
+
 # User + MDP BULLETPROOF
 RUN useradd -m -u 1001 -s /bin/bash cracker && \
     echo "cracker ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \

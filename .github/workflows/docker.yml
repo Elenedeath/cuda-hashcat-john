@@ -26,7 +26,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/comfyui-docker
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/cuda-hashcat-john
           tags: |
             # Semver tags are generated only when a GitHub release with a
             # tag matching vX.Y.Z is published (e.g. v1.2.3 → 1.2.3, 1.2, 1)

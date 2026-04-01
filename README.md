@@ -12,13 +12,14 @@
 
 **29 GH/s MD5** (RTX 2070S) | Hashcat 7.1.2 + John Jumbo + SSH | TrueNAS SCALE Ready
 
-## 🔥 Benchmarks RTX 2070 SUPER
-| Mode | Type | Speed |
-|------|------|-------|
-| 0 | MD5 | **29 GH/s** |
-| 1000 | NTLM | **55 GH/s** |
-| 22000 | WPA | **476 kH/s** |
-| 5600 | NetNTLMv2 | 2 GH/s |
+## 🔥 Benchmarks Hashcat
+| Mode | Type | RTX 2070 SUPER | RTX A2000 + Quadro RTX 4000
+|------|------|-------|-------|
+| 0 | MD5 | **29.0 GH/s** | **35 GH/s** |
+| 1000 | NTLM | **51 GH/s** | **67.1 GH/s** |
+| 22000 | WPA | **453 kH/s** | **570.5 kH/s** |
+| 5600 | NetNTLMv2 | 2.05 GH/s | 2.51 GH/s |
+| 1700 | SHA2-512 | 1.31 GH/s | 1.74 GH/s |
 
 ## 🐳 TrueNAS SCALE YAML
 ```

@@ -42,7 +42,7 @@ RUN cd /opt && wget https://hashcat.net/files/hashcat-7.1.2.7z && \
 RUN cd /opt && git clone https://github.com/openwall/john.git john-jumbo && \
     cd john-jumbo/src && ./configure CUDA=found && \
     make -s clean && make -j$(nproc) && \
-    ln -sf /opt/john-jumbo/run/john /usr/local/bin/john
+    ln -sf /opt/john-jumbo/run/john /usr/local/bin/john && \
     ln -sf /opt/john-jumbo/run/zip2john /usr/local/bin/zip2john
 
 # Alias

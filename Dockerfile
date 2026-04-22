@@ -1,4 +1,4 @@
-FROM nvidia/cuda:13.1.1-devel-ubuntu24.04
+FROM nvidia/cuda:12.4.1-devel-ubuntu22.04
 
 # Base + deps + PAM
 RUN apt-get update && apt-get install -y \
@@ -43,6 +43,7 @@ RUN cd /opt && git clone https://github.com/openwall/john.git john-jumbo && \
     cd john-jumbo/src && ./configure CUDA=found && \
     make -s clean && make -j$(nproc) && \
     ln -sf /opt/john-jumbo/run/john /usr/local/bin/john
+    ln -sf /opt/john-jumbo/run/zip2john /usr/local/bin/zip2john
 
 # Alias
 RUN chown -R cracker:cracker /opt/ /home/cracker && \

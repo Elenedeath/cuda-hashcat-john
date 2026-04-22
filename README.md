@@ -5,7 +5,7 @@
 - ✅ **Hashcat 7.1.2** CUDA backend (29 GH/s MD5 sur RTX 2070S)
 - ✅ **John Jumbo** CUDA compilé
 - ✅ **SSH sécurisé** (cracker/password123)
-- ✅ NVIDIA CUDA 13.1.1-devel Ubuntu 24.04
+- ✅ NVIDIA CUDA 12.4.1-devel Ubuntu 22.04
 - ✅ Volume persistant `/home/cracker/data` (hashes/wordlists)
 - ✅ OpenCL fallback (ignore warning)
 - ✅ Generate SSH keys when building image

@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
     openssh-server sudo wget p7zip-full git build-essential openssl \
     libssl-dev zlib1g-dev yasm pkg-config libgmp-dev nano \
     libbz2-dev libpcap-dev ocl-icd-opencl-dev clinfo \
-    libpam-modules \
+    libpam-modules cmake zip unzip zipinfo xxd \
     && rm -rf /var/lib/apt/lists/*
 
 # SSH + syslog fix
@@ -45,11 +45,26 @@ RUN cd /opt && git clone https://github.com/openwall/john.git john-jumbo && \
     ln -sf /opt/john-jumbo/run/john /usr/local/bin/john && \
     ln -sf /opt/john-jumbo/run/zip2john /usr/local/bin/zip2john
 
+# bkcrack 1.8.1
+RUN cd /opt && git clone https://github.com/kimci86/bkcrack.git && \
+    cd bkcrack && git checkout v1.8.1 && \
+    cmake -S . -B build -DCMAKE_INSTALL_PREFIX=install && \
+    cmake --build build --config Release -j$(nproc) && \
+    cmake --build build --config Release --target install && \
+    ln -sf /opt/bkcrack/install/bkcrack /usr/local/bin/bkcrack
+
+# zopfli
+RUN cd /opt && git clone https://github.com/google/zopfli.git && \
+    cd zopfli && make -j$(nproc) && \
+    ln -sf /opt/zopfli/zopfli /usr/local/bin/zopfli
+
 # Alias
 RUN chown -R cracker:cracker /opt/ /home/cracker && \
     echo 'alias john="/opt/john-jumbo/run/john"' >> /home/cracker/.bashrc && \
+    echo 'export BKCRACK=/opt/bkcrack/install/bkcrack' >> /home/cracker/.bashrc && \
+    echo 'export PATH=$PATH:/opt/john-jumbo/run:/opt/bkcrack/install:/opt/zopfli:/opt/hashcat-7.1.2' >> /home/cracker/.bashrc && \
     mkdir -p /home/cracker/.john && \
-    echo "[Options]\nHomeDir = /opt/john-jumbo/run" > /home/cracker/.john/john.conf
+    printf '[Options]\nHomeDir = /opt/john-jumbo/run\n' > /home/cracker/.john/john.conf
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]

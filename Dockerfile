@@ -4,8 +4,8 @@ FROM nvidia/cuda:12.4.1-devel-ubuntu22.04
 RUN apt-get update && apt-get install -y \
     openssh-server sudo wget p7zip-full git build-essential openssl \
     libssl-dev zlib1g-dev yasm pkg-config libgmp-dev nano \
-    libbz2-dev libpcap-dev ocl-icd-opencl-dev clinfo \
-    libpam-modules cmake zip unzip zipinfo xxd \
+    libbz2-dev libpcap-dev \
+    libpam-modules cmake zip unzip xxd \
     && rm -rf /var/lib/apt/lists/*
 
 # SSH + syslog fix
